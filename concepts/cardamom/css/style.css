@@ -1,0 +1,178 @@
+:root {
+  --accent-color: blue;
+  --accent-bg-color: blue;
+  --accent-fg-color: rgba(255,255,255,0.7);
+
+  --window-bg-color: #333;
+  --window-fg-color: #f7f7f7;
+
+  --headerbar-bg-color: #444;
+  --headerbar-fg-color: #f7f7f7;
+
+  /* Sizes and radius */
+  --window-border-radius: 8px;
+  --header-bar-height: 40px;
+  --taskbar-height: 40px;
+
+  /* buttons */
+  --button-color: color-mix(in srgb, currentColor 10%, transparent);
+  --button-hover: color-mix(in srgb, currentColor 20%, transparent);
+  --button-radius: 4px;
+  --button-padding: 6px 8px;
+
+  /* Effects */
+  --standard-fade: 100ms ease-in-out;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  font-family: Ubuntu, sans-serif;
+  background-image: url('../img/dreams.png');
+  background-size: cover;
+  background-color: #004b76;
+  user-select: none;
+}
+
+.desktop {
+  height: 100vh;
+  width: 100vw;
+}
+
+.taskbar {
+  width: 100%;
+  height: var(--taskbar-height);
+  background-color: rgba(33,33,33,0.4);
+  color: var(--window-fg-color);
+  position: absolute;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+  box-shadow: 0 -1px rgba(255,255,255,0.05);
+}
+
+#task-list {
+  height: var(--taskbar-height);
+  float: left;
+}
+
+.task {
+  height: var(--taskbar-height);
+  width: var(--taskbar-height);
+  float: left;
+  font-size: 24px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  transition: var(--standard-fade);
+}
+
+.task:hover {
+  border-radius: 6px;
+  background-color: rgba(255,255,255,0.1);
+}
+
+.start-menu {
+  height: var(--taskbar-height);
+  width: var(--taskbar-height);
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 12px;
+  font-size: 24px;
+  transition: var(--standard-fade);
+}
+
+.start-menu:hover {
+  border-radius: 6px;
+  background-color: rgba(255,255,255,0.1);
+}
+
+.open-window {
+  position: absolute;
+  width: 640px;
+  height: 480px;
+  background-color: #333;
+  color: var(--window-fg-color);
+  border-radius: var(--window-border-radius);
+  box-shadow: 0 3px 12px 1px rgba(0, 0, 0, 0.7),
+              0 0 0 1px rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(255, 255, 255, 0.15);
+  outline-offset: -1px;
+}
+
+.header-bar {
+  height: var(--header-bar-height);
+  width: 100%;
+  color: var(--headerbar-fg-color);
+  background-color: #444;
+  border-radius: var(--window-border-radius) var(--window-border-radius) 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-bar button {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: var(--headerbar-fg-color);
+  border: none;
+  border-radius: var(--button-radius);
+	background-color: var(--button-color);
+	padding: var(--button-padding);
+	margin-left: 8px;
+	transition: var(--standard-fade);
+}
+
+.header-bar button:hover {
+  background-color: var(--button-hover);
+}
+
+.title {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  right: 50%;
+  position: absolute;
+}
+
+#window-controls {
+  height: var(--header-bar-height);
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+}
+
+.close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: var(--button-color);
+  width: 24px;
+  height: 24px;
+  cursor: default;
+  transition: var(--standard-fade);
+}
+
+.close:hover {
+  background-color: var(--button-hover);
+}
+
+#clock {
+  height: var(--taskbar-height);
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 1em;
+  font-family: Ubuntu, sans-serif;
+  margin-right: 16px;
+}
