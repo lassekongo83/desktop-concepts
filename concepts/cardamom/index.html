@@ -2,20 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cardamom Desktop Concept</title>
+  <title>Cardamom Template</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="desktop">
-    <div class="taskbar">
-      <div class="start-menu">⌘</div>
-      <div id="task-list">
-        <div class="task">📁</div>
-        <div class="task">✉️</div>
-        <div class="task">📒</div>
-      </div>
-      <div id="clock">00:00</div>
-    </div>
+    <!-- WINDOW -->
     <div class="open-window">
       <div class="header-bar">
         <button>menu</button>
@@ -23,6 +15,95 @@
         <div id="window-controls">
           <div class="close">✕</div>
         </div>
+      </div>
+    </div>
+    <!-- TASKBAR / PANEL -->
+    <div class="taskbar">
+      <div class="start-button">⌘</div>
+      <div id="task-list">
+        <div class="task">📁</div>
+        <div class="task">✉️</div>
+        <div class="task">📒</div>
+      </div>
+      <div id="clock">00:00</div>
+      <div id="desktop-hide"></div>
+    </div>
+    <!-- START MENU / APP GRID -->
+    <div id="start-menu" class="hidden">
+      <div class="start-sidebar">
+        <div id="start-side-favs">
+          <div class="start-side-item">❤</div>
+          <div class="start-side-item">☰</div>
+          <div class="start-side-item">⚒</div>
+        </div>
+        <div id="start-side-system">
+          <div class="start-side-item">⎋</div>
+        </div>
+      </div>
+      <div id="app-grid">
+        <div class="app-item">
+          <div class="app-icon">🎮</div>
+          <p class="app-text">Games</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📁</div>
+          <p class="app-text">Files</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📒</div>
+          <p class="app-text">Texts</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">✉️</div>
+          <p class="app-text">E-mail</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📦</div>
+          <p class="app-text">Package Manager</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📊</div>
+          <p class="app-text">App Name 6</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🗓</div>
+          <p class="app-text">Calendar</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🛡</div>
+          <p class="app-text">Security</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🛠</div>
+          <p class="app-text">Settings</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🧲</div>
+          <p class="app-text">Torrents</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🎹</div>
+          <p class="app-text">Music</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📱</div>
+          <p class="app-text">Phone</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🎥</div>
+          <p class="app-text">Video Editor</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📋</div>
+          <p class="app-text">Notes</p>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">⌨️</div>
+          <p class="app-text">Keyboard</p>
+        </div>
+      </div>
+      <div id="start-search">
+        <input type="search" id="searchArea" name="q" />
       </div>
     </div>
   </div>
