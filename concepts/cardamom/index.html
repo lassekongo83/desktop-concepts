@@ -2,31 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cardamom Template</title>
+  <title>Cardamom Concept Design</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="desktop">
     <!-- WINDOW -->
-    <div class="open-window">
+    <div class="open-window active">
       <div class="header-bar">
         <button>menu</button>
         <div class="title">Title</div>
-        <div id="window-controls">
+        <div class="window-controls">
           <div class="close">✕</div>
         </div>
+      </div>
+      <div class="sidebar">
+        <ul>
+          <li>Sidebar item</li>
+        </ul>
       </div>
     </div>
     <!-- TASKBAR / PANEL -->
     <div class="taskbar">
-      <div class="start-button">⌘</div>
       <div id="task-list">
-        <div class="task">📁</div>
-        <div class="task">✉️</div>
-        <div class="task">📒</div>
+        <div class="start-button">
+          <span>⌘</span>
+        </div>
+        <div class="task active">
+          <span>📁</span>
+          <div class="task-indicator"></div>
+        </div>
+        <div class="task">
+          <span>✉️</span>
+          <div class="task-indicator"></div>
+        </div>
+        <div class="task">
+          <span>📒</span>
+          <div class="task-indicator"></div>
+        </div>
       </div>
-      <div id="clock">00:00</div>
-      <div id="desktop-hide"></div>
+      <div id="clock-area">
+        <div id="tray-area">
+          <!-- tray area -->
+          <div class="tray-item">⚐</div>
+          <div class="tray-item">♫</div>
+        </div>
+        <div id="clock"></div>
+        <div id="show-desktop"></div>
+      </div>
+
     </div>
     <!-- START MENU / APP GRID -->
     <div id="start-menu" class="hidden">
@@ -37,73 +61,75 @@
           <div class="start-side-item">⚒</div>
         </div>
         <div id="start-side-system">
-          <div class="start-side-item">⎋</div>
-        </div>
-      </div>
-      <div id="app-grid">
-        <div class="app-item">
-          <div class="app-icon">🎮</div>
-          <p class="app-text">Games</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📁</div>
-          <p class="app-text">Files</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📒</div>
-          <p class="app-text">Texts</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">✉️</div>
-          <p class="app-text">E-mail</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📦</div>
-          <p class="app-text">Package Manager</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📊</div>
-          <p class="app-text">App Name 6</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🗓</div>
-          <p class="app-text">Calendar</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🛡</div>
-          <p class="app-text">Security</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🛠</div>
-          <p class="app-text">Settings</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🧲</div>
-          <p class="app-text">Torrents</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🎹</div>
-          <p class="app-text">Music</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📱</div>
-          <p class="app-text">Phone</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">🎥</div>
-          <p class="app-text">Video Editor</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">📋</div>
-          <p class="app-text">Notes</p>
-        </div>
-        <div class="app-item">
-          <div class="app-icon">⌨️</div>
-          <p class="app-text">Keyboard</p>
+          <div class="start-side-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M12 21c4.411 0 8-3.589 8-8 0-3.35-2.072-6.221-5-7.411v2.223A6 6 0 0 1 18 13c0 3.309-2.691 6-6 6s-6-2.691-6-6a5.999 5.999 0 0 1 3-5.188V5.589C6.072 6.779 4 9.65 4 13c0 4.411 3.589 8 8 8z"></path><path d="M11 2h2v10h-2z"></path></svg>
+          </div>
         </div>
       </div>
       <div id="start-search">
         <input type="search" id="searchArea" name="q" />
+      </div>
+      <div id="app-grid">
+        <div class="app-item">
+          <div class="app-icon">🎮</div>
+          <span class="app-text">Games</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📁</div>
+          <span class="app-text">Files</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📒</div>
+          <span class="app-text">Texts</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">✉️</div>
+          <span class="app-text">E-mail</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📦</div>
+          <span class="app-text">Packages</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📊</div>
+          <span class="app-text">Statistics</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🗓</div>
+          <span class="app-text">Calendar</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🛡</div>
+          <span class="app-text">Security</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🛠</div>
+          <span class="app-text">Settings</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🧲</div>
+          <span class="app-text">Torrents</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🎹</div>
+          <span class="app-text">Music</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📱</div>
+          <span class="app-text">Phone</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">🎥</div>
+          <span class="app-text">Video Editor</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">📋</div>
+          <span class="app-text">Notes</span>
+        </div>
+        <div class="app-item">
+          <div class="app-icon">⌨️</div>
+          <span class="app-text">Keyboard</span>
+        </div>
       </div>
     </div>
   </div>
