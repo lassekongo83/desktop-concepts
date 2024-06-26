@@ -1,0 +1,28 @@
+name: Compile SASS
+
+on:
+ push:
+  paths:
+    - '**/style.scss'
+
+jobs:
+ build:
+  runs-on: ubuntu-latest
+
+  steps:
+  - uses: actions/checkout@v4
+
+  - name: Install Dart Sass
+    run: npm install -g sass
+
+  - name: Compile SASS
+    run: |
+      find . -name "style.scss" -exec sh -c 'sass --style=compressed --no-source-map $1 $(dirname $1)/style.min.css' _ {} \;
+
+  - name: Add, commit, and push
+    run: |
+      git config --global user.name "GitHub Actions"
+      git config --global user.email "<>"
+      git add -A
+      git commit -m "Compile scss to css"
+      git push
