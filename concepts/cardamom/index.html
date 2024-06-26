@@ -3,17 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Cardamom Concept Design</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
   <div class="desktop">
     <!-- WINDOW -->
+    <div class="snap-view left"></div>
+    <div class="snap-view right"></div>
     <div class="open-window active">
       <div class="header-bar">
-        <button>menu</button>
+        <button popovertarget="#app1-hamburger">menu</button>
+        <div id="#app1-hamburger" class="popover-menu" popover>
+          <ul>
+            <li>menuitem 1</li>
+            <li>menuitem 2</li>
+          </ul>
+        </div>
         <div class="title">Title</div>
         <div class="window-controls">
-          <div class="close">✕</div>
+          <div class="minimize-button"><img src="img/minimize-icon.webp" name="minimize"></div>
+          <div class="maximize-button"><img src="img/maximize-icon.webp" name="maximize"></div>
+          <div class="close-button"><img src="img/close-icon.webp" name="close"></div>
         </div>
       </div>
       <div class="sidebar">
@@ -25,18 +35,16 @@
     <!-- TASKBAR / PANEL -->
     <div class="taskbar">
       <div id="task-list">
-        <div class="start-button">
-          <span>⌘</span>
-        </div>
+        <div class="start-button"></div>
         <div class="task active">
           <span>📁</span>
           <div class="task-indicator"></div>
         </div>
-        <div class="task">
+        <div class="task" tooltip="Not implemented">
           <span>✉️</span>
           <div class="task-indicator"></div>
         </div>
-        <div class="task">
+        <div class="task" tooltip="Not implemented">
           <span>📒</span>
           <div class="task-indicator"></div>
         </div>
@@ -47,18 +55,20 @@
           <div class="tray-item">⚐</div>
           <div class="tray-item">♫</div>
         </div>
-        <div id="clock"></div>
+        <div id="clock">
+          <span id="date"></span>
+          <span id="time"></span>
+        </div>
         <div id="show-desktop"></div>
       </div>
-
     </div>
     <!-- START MENU / APP GRID -->
-    <div id="start-menu" class="hidden">
+    <div id="start-menu" data-closed="">
       <div class="start-sidebar">
         <div id="start-side-favs">
-          <div class="start-side-item">❤</div>
-          <div class="start-side-item">☰</div>
           <div class="start-side-item">⚒</div>
+          <div class="start-side-item">☰</div>
+          <div class="start-side-item">❤</div>
         </div>
         <div id="start-side-system">
           <div class="start-side-item">
@@ -69,6 +79,7 @@
       <div id="start-search">
         <input type="search" id="searchArea" name="q" />
       </div>
+      <div class="user-icon"></div>
       <div id="app-grid">
         <div class="app-item">
           <div class="app-icon">🎮</div>
