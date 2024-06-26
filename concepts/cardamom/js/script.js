@@ -43,69 +43,151 @@ function dragElement(elmnt) {
   }
 }
 
+// tiling example
+let mouseIsDown = false;
+
+const handleMouseEvent = (event) => {
+  if (event.type === 'mousedown') {
+    mouseIsDown = true;
+  }
+  if (event.type === 'mouseup') {
+    mouseIsDown = false;
+  }
+
+  if (mouseIsDown && ['mousedown', 'mousemove'].includes(event.type)) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const cursorXRelativeToDesktop = event.clientX - rect.left;
+    const desktopWidth = rect.width;
+
+    const snapLeft = document.querySelector('.snap-view.left');
+    const snapRight = document.querySelector('.snap-view.right');
+
+    if (cursorXRelativeToDesktop <= 0) {
+      snapLeft.style.visibility = 'visible';
+    } else {
+      snapLeft.style.visibility = 'hidden';
+    }
+    if (cursorXRelativeToDesktop >= desktopWidth + rect.right) {
+      snapRight.style.visibility = 'visible';
+    } else {
+      snapRight.style.visibility = 'hidden';
+    }
+  }
+};
+
+document.querySelector('.desktop').addEventListener('mousedown', handleMouseEvent);
+document.querySelector('.desktop').addEventListener('mousemove', handleMouseEvent);
+document.querySelector('.desktop').addEventListener('mouseup', handleMouseEvent);
+
 // START MENU
 const startButton = document.querySelector('.start-button');
 const startMenuDiv = document.querySelector('#start-menu');
 
 startButton.addEventListener('click', function() {
-  startMenuDiv.classList.toggle('hidden');
+  if (startMenuDiv.hasAttribute('data-closed')) {
+    startMenuDiv.removeAttribute('data-closed');
+    startMenuDiv.setAttribute('data-opened', '');
+  } else {
+    startMenuDiv.removeAttribute('data-opened');
+    startMenuDiv.setAttribute('data-closed', '');
+  }
 });
 
 // Close app menu when clicking outside it
 document.addEventListener('mousedown', function(event) {
   if (!startMenuDiv.contains(event.target) && event.target!== startButton) {
-    startMenuDiv.classList.add('hidden');
+    startMenuDiv.removeAttribute('data-opened');
+    startMenuDiv.setAttribute('data-closed', '');
   }
 });
 
 // CLOCK
 function displayTime() {
-  var elt = document.getElementById("clock");
   var now = new Date();
   var hours = now.getHours();
   var minutes = now.getMinutes();
 
-  // Ensure hours and minutes are two digits
-  hours = hours.toString().padStart(2, "0"); // Pad hours with leading zero if needed
-  minutes = minutes.toString().padStart(2, "0"); // Pad minutes with leading zero if needed
+  hours = hours.toString().padStart(2, "0");
+  minutes = minutes.toString().padStart(2, "0");
 
-  // Combine hours and minutes
-  var t = hours + ":" + minutes;
-
-  elt.innerHTML = t;
+  document.getElementById('date').textContent = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  document.getElementById('time').textContent = hours + ":" + minutes;
 }
 
 setInterval(displayTime, 60000);
 displayTime();
 
-// SHOW DESKTOP BUTTON
+// SHOW DESKTOP / MINIMIZE
 const showDesktop = document.querySelector('#show-desktop');
 const openWindow = document.querySelector('.open-window');
 const task = document.querySelector('.task');
+const minimize = document.querySelector('.minimize-button');
 
 function updateClasses(element) {
-  // Check if '.hidden' or '.minimized' class exists
   if (element.classList.contains('hidden') || element.classList.contains('minimized')) {
-    // Remove '.active' class if it exists
     element.classList.remove('active');
   } else {
-    // Add '.active' class if neither '.hidden' nor '.minimized' class exists
     element.classList.add('active');
   }
 }
 
-showDesktop.addEventListener('click', function() {
-  openWindow.classList.toggle('hidden');
+let hideWindow = document.querySelectorAll('.open-window.active .minimize-button, .task.active, #show-desktop');
 
-  task.classList.toggle('active');
-  task.classList.toggle('minimized');
-  updateClasses(openWindow);
+hideWindow.forEach(function (i) {
+  i.addEventListener('click', function() {
+    openWindow.classList.toggle('hidden');
+    task.classList.toggle('active');
+    task.classList.toggle('minimized');
+    updateClasses(openWindow);
+  });
 });
 
-task.addEventListener('click', function() {
-  openWindow.classList.toggle('hidden');
-  
-  task.classList.toggle('active');
-  task.classList.toggle('minimized');
-  updateClasses(openWindow);
+// maximize
+document.addEventListener('DOMContentLoaded', function() {
+  const maximizeButton = document.querySelector('.maximize-button');
+  let iconImages = document.querySelectorAll('.open-window img[name="maximize"]');
+
+  maximizeButton.addEventListener('click', function() {
+    document.querySelectorAll('.open-window').forEach(function(windowElement) {
+      windowElement.classList.toggle('maximized');
+    });
+
+    iconImages = document.querySelectorAll('.open-window img[name="maximize"]');
+
+    iconImages.forEach(function(iconImage) {
+      if (iconImage.closest('.open-window').classList.contains('maximized')) {
+        iconImage.src = 'img/unmaximize-icon.webp';
+      } else {
+        iconImage.src = 'img/maximize-icon.webp';
+      }
+    });
+  });
+});
+
+// change panel color when maximized
+document.addEventListener('DOMContentLoaded', () => {
+  const openWindowElement = document.querySelector('.open-window');
+
+  function updatePanelBg() {
+    if (openWindowElement.classList.contains('maximized')) {
+      document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,1.0)');
+    } else {
+      document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,0.7)');
+    }
+  }
+
+  updatePanelBg();
+
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        updatePanelBg();
+      }
+    });
+  });
+
+  observer.observe(openWindowElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
 });
