@@ -1,2 +1,2 @@
 # desktop-concepts
-Desktop design concepts written with HTML, CSS, JS
+Desktop design concepts written in HTML, CSS, JS
