@@ -234,7 +234,7 @@ body {
   }
 }
 
-// APP MENU
+// START / APP MENU
 
 @keyframes pop-in-app-menu {
   0% {
@@ -256,9 +256,9 @@ body {
   bottom: var(--taskbar-height);
   left: 0px;
 
-  width: 680px;
-  height: 480px;
-  min-height: 480px;
+  width: 40vw;
+  height: 50vh;
+  min-height: 50vh;
   z-index: 2;
 
   background-color: var(--start-menu-bg);
@@ -269,7 +269,7 @@ body {
 
   &[data-closed] {
     position: absolute;
-    bottom: -480px;
+    bottom: -50vh;
 
     opacity: 0 !important;
     visibility: hidden;
@@ -291,7 +291,7 @@ body {
 .start-sidebar {
   float: left;
   width: var(--startbutton-width);
-  min-height: 480px;
+  min-height: 50vh;
   background-color: var(--start-sidebar-bg);
 }
 
@@ -323,7 +323,7 @@ body {
 
 .user-icon {
   position: absolute;
-  right: 16px;
+  left: calc(var(--startbutton-width) + 16px);
   bottom: 16px;
 
   border-radius: 100%;
@@ -402,8 +402,8 @@ body {
 
 .open-window {
   position: absolute;
-  width: 1280px;
-  height: 720px;
+  width: 50vw;
+  height: 50vh;
 
   background-color: var(--window-bg-color);
   color: var(--window-fg-color);
@@ -433,6 +433,19 @@ body {
     .header-bar { border-radius: 0; }
   }
 
+  &.snap-left {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    box-shadow: none;
+    border-radius: 0;
+    outline: none;
+    height: calc(100vh - var(--taskbar-height));
+    width: 50%;
+    transform: none;
+    transition: all 100ms linear;
+  }
+
   // minimize effect
   &.hidden,
   &.maximized.hidden {
@@ -452,7 +465,8 @@ body {
 }
 
 .snap-view {
-  transition: all 200ms linear;
+  width: 0;
+  height: 0;
   &.left {
     left: 0;
     top: 0;
@@ -462,12 +476,12 @@ body {
     top: 0;
   }
   &.left, &.right {
-    visibility: hidden;
     position: absolute;
-    background-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent-color) 50%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 80%, transparent);
     height: calc(100vh - var(--taskbar-height));
     width: 50%;
+    transition: all 200ms linear;
   }
 }
 
@@ -611,30 +625,6 @@ button:hover { background-color: var(--button-hover); }
 }
 
 // TOOLTIPS
-
-/*[tooltip] {
-  position: relative;
-}
-
-[tooltip]:hover::before {
-  content: attr(tooltip);
-  font-size: 14px;
-  text-align: center;
-  position: absolute;
-  display: block;
-  left: 50%;
-  min-width: 150px;
-  max-width: 200px;
-  bottom: calc(100% + 10px);
-  transform: translate(-50%);
-  animation: fade-in 300ms ease;
-  background: rgba(44,44,44,0.8);
-  border-radius: 4px;
-  padding: 10px;
-  color: #ffffff;
-  z-index: 1;
-}*/
-
 // https://codepen.io/notouchz33/pen/BayLyow
 
 @keyframes fade-in {
