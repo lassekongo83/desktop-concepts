@@ -1,7 +1,8 @@
+let desktop = document.querySelector('.desktop');
 let windowElem = document.querySelector('.open-window');
 
 // WINDOW
-// Make the DIV element draggable:
+// Make the DIV element draggable - https://www.w3schools.com/howto/howto_js_draggable.asp
 dragElement(windowElem);
 
 function dragElement(elmnt) {
@@ -36,9 +37,16 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    if (windowElem.classList.contains('snap-left')) {
-      windowElem.classList.remove('snap-left');
+
+    // Remove other classes when dragging the window
+    const snapClasses = ['snap-left', 'snap-right'];
+
+    for (let i = 0; i < snapClasses.length; i++) {
+      if (windowElem.classList.contains(snapClasses[i])) {
+        windowElem.classList.remove(snapClasses[i]);
+      }
     }
+
     if (windowElem.classList.contains('maximized')) {
       windowElem.classList.remove('maximized');
       document.querySelector('.open-window img[name="maximize"]').src = 'img/maximize-icon.webp';
@@ -52,46 +60,65 @@ function dragElement(elmnt) {
   }
 }
 
-// tiling preview
+// snap window to edges
 let mouseIsDown = false;
+let snapView = document.querySelector('.snap-view');
+let triggerTop = document.querySelector('.tile-trigger-top');
+let triggerLeft = document.querySelector('.tile-trigger-left');
+let triggerRight = document.querySelector('.tile-trigger-right');
+
+function isElementHovered(element) {
+  return element.matches(':hover');
+}
 
 const handleMouseEvent = (event) => {
-  const snapPrev = document.querySelector('.snap-view');
-  const rect = event.currentTarget.getBoundingClientRect();
-  const cursorXRelativeToDesktop = event.clientX - rect.left;
-  const desktopWidth = rect.width;
-
   if (event.type === 'mousedown') {
     mouseIsDown = true;
-  }
-  if (event.type === 'mouseup') {
+  } else if (event.type === 'mouseup') {
     mouseIsDown = false;
   }
 
   if (mouseIsDown && ['mousedown', 'mousemove'].includes(event.type)) {
-    if (cursorXRelativeToDesktop <= 0) {
-      snapPrev.classList.add('left');
+    if (isElementHovered(triggerTop)) {
+      snapView.classList.add('top');
+    } else {
+      snapView.classList.remove('top');
     }
-    else {
-      snapPrev.classList.remove('left');
+
+    if (isElementHovered(triggerLeft)) {
+      snapView.classList.add('left');
+    } else {
+      snapView.classList.remove('left');
     }
-  }
-  else if (!mouseIsDown && ['mousedown', 'mouseup'].includes(event.type)) {
-    if (cursorXRelativeToDesktop <= 0) {
-      snapPrev.classList.remove('left');
+
+    if (isElementHovered(triggerRight)) {
+      snapView.classList.add('right');
+    } else {
+      snapView.classList.remove('right');
+    }
+  } else if (!mouseIsDown && event.type === 'mouseup') {
+    if (isElementHovered(triggerTop)) {
+      snapView.classList.remove('top');
+      windowElem.classList.add('maximized');
+      document.querySelector('.open-window img[name="maximize"]').src = 'img/unmaximize-icon.webp';
+    } else if (isElementHovered(triggerLeft)) {
+      snapView.classList.remove('left');
       windowElem.classList.add('snap-left');
+    } else if (isElementHovered(triggerRight)) {
+      snapView.classList.remove('right');
+      windowElem.classList.add('snap-right');
     }
   }
 };
 
-document.querySelector('.desktop').addEventListener('mousedown', handleMouseEvent);
-document.querySelector('.desktop').addEventListener('mousemove', handleMouseEvent);
-document.querySelector('.desktop').addEventListener('mouseup', handleMouseEvent);
+desktop.addEventListener('mousedown', handleMouseEvent);
+desktop.addEventListener('mousemove', handleMouseEvent);
+desktop.addEventListener('mouseup', handleMouseEvent);
 
 // SHOW DESKTOP / MINIMIZE
-const showDesktop = document.querySelector('#show-desktop');
-const task = document.querySelector('.task');
-const minimize = document.querySelector('.minimize-button');
+let showDesktop = document.querySelector('#show-desktop');
+let task = document.querySelector('.task');
+let minimize = document.querySelector('.minimize-button');
 
 function updateClasses(element) {
   if (element.classList.contains('hidden') || element.classList.contains('minimized')) {
@@ -115,73 +142,53 @@ hideWindow.forEach(function (i) {
 // maximize
 document.addEventListener('DOMContentLoaded', function() {
   const maximizeButton = document.querySelector('.maximize-button');
+  const headerBar = document.querySelector('.header-bar');
   let iconImages = document.querySelectorAll('.open-window img[name="maximize"]');
 
-  maximizeButton.addEventListener('click', function() {
+  function toggleMaximized() {
     document.querySelectorAll('.open-window').forEach(function(windowElement) {
       windowElement.classList.toggle('maximized');
+
       if (windowElement.classList.contains('snap-left')) {
         windowElement.classList.remove('snap-left');
       }
+      if (windowElement.classList.contains('snap-right')) {
+        windowElement.classList.remove('snap-right');
+      }
     });
 
-    iconImages = document.querySelectorAll('.open-window img[name="maximize"]');
-
+    const iconImages = document.querySelectorAll('.open-window img[name="maximize"]');
     iconImages.forEach(function(iconImage) {
       if (iconImage.closest('.open-window').classList.contains('maximized')) {
         iconImage.src = 'img/unmaximize-icon.webp';
+        document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,1.0)');
       } else {
         iconImage.src = 'img/maximize-icon.webp';
+        document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,0.7)');
       }
     });
-  });
-});
-
-// change panel color when maximized
-document.addEventListener('DOMContentLoaded', () => {
-  function updatePanelBg() {
-    if (windowElem.classList.contains('maximized')) {
-      document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,1.0)');
-    } else {
-      document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,0.7)');
-    }
   }
 
-  updatePanelBg();
-
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        updatePanelBg();
-      }
-    });
-  });
-
-  observer.observe(windowElem, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
+  maximizeButton.addEventListener('click', toggleMaximized);
+  headerBar.addEventListener('dblclick', toggleMaximized);
 });
 
 // START MENU
-const startButton = document.querySelector('.start-button');
-const startMenuDiv = document.querySelector('#start-menu');
+document.addEventListener('click', function(event) {
+  const startButton = document.querySelector('.start-button');
+  const startMenu = document.querySelector('#start-menu');
 
-startButton.addEventListener('click', function() {
-  if (startMenuDiv.hasAttribute('data-closed')) {
-    startMenuDiv.removeAttribute('data-closed');
-    startMenuDiv.setAttribute('data-opened', '');
-  } else {
-    startMenuDiv.removeAttribute('data-opened');
-    startMenuDiv.setAttribute('data-closed', '');
-  }
-});
-
-// Close app menu when clicking outside it
-document.addEventListener('mousedown', function(event) {
-  if (!startMenuDiv.contains(event.target) && event.target!== startButton) {
-    startMenuDiv.removeAttribute('data-opened');
-    startMenuDiv.setAttribute('data-closed', '');
+  if (event.target === startButton) {
+    if (startMenu.hasAttribute('data-closed')) {
+      startMenu.removeAttribute('data-closed');
+      startMenu.setAttribute('data-opened', '');
+    } else {
+      startMenu.removeAttribute('data-opened');
+      startMenu.setAttribute('data-closed', '');
+    }
+  } else if (!startMenu.contains(event.target)) {
+    startMenu.removeAttribute('data-opened');
+    startMenu.setAttribute('data-closed', '');
   }
 });
 
