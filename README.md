@@ -1,2 +1,2 @@
-# desktop-concepts
-Desktop design concepts written in HTML, CSS, JS
+# Frellwit's Desktop Design Concepts
+Various desktop design concepts/mockups written with HTML, CSS, and JavaScript.
