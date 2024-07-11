@@ -50,6 +50,7 @@ function dragElement(elmnt) {
     if (windowElem.classList.contains('maximized')) {
       windowElem.classList.remove('maximized');
       document.querySelector('.open-window img[name="maximize"]').src = 'img/maximize-icon.webp';
+      document.documentElement.style.setProperty('--panel-bg', '');
     }
   }
 
@@ -161,10 +162,10 @@ document.addEventListener('DOMContentLoaded', function() {
     iconImages.forEach(function(iconImage) {
       if (iconImage.closest('.open-window').classList.contains('maximized')) {
         iconImage.src = 'img/unmaximize-icon.webp';
-        document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,1.0)');
+        document.documentElement.style.setProperty('--panel-bg', 'var(--panel-bg-maximized)');
       } else {
         iconImage.src = 'img/maximize-icon.webp';
-        document.documentElement.style.setProperty('--panel-bg', 'rgba(33,33,33,0.7)');
+        document.documentElement.style.setProperty('--panel-bg', '');
       }
     });
   }
@@ -174,21 +175,39 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // START MENU
-document.addEventListener('click', function(event) {
+document.addEventListener('mousedown', function(event) {
   const startButton = document.querySelector('.start-button');
   const startMenu = document.querySelector('#start-menu');
+
+  const settingsButton = document.querySelector('.start-side-item.settings');
+  const favoritesButton = document.querySelector('.start-side-item.favorites');
+  const settingsMenu = document.querySelector('#settings');
+  const favoritesMenu = document.querySelector('#apps');
 
   if (event.target === startButton) {
     if (startMenu.hasAttribute('data-closed')) {
       startMenu.removeAttribute('data-closed');
       startMenu.setAttribute('data-opened', '');
+      startButton.classList.add('open');
     } else {
       startMenu.removeAttribute('data-opened');
       startMenu.setAttribute('data-closed', '');
+      startButton.classList.remove('open');
     }
   } else if (!startMenu.contains(event.target)) {
     startMenu.removeAttribute('data-opened');
     startMenu.setAttribute('data-closed', '');
+    startButton.classList.remove('open');
+  }
+
+  if (event.target === settingsButton) {
+    settingsMenu.classList.remove('hidden');
+    favoritesMenu.classList.add('hidden');
+  }
+
+  if (event.target === favoritesButton) {
+    settingsMenu.classList.add('hidden');
+    favoritesMenu.classList.remove('hidden');
   }
 });
 
